@@ -1,0 +1,16 @@
+---
+title: Untitled
+author: Khalil AMARDJIA
+format:
+  booker-typst: default
+---
+
+## Introduction
+
+```{=typst}
+#for i in (10, 250, 30) {
+  lorem(i)
+  v(1.5em)
+}
+
+```
