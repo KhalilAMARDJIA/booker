@@ -347,6 +347,8 @@
   show table.cell.where(y: 0): strong
   show table: set text(size: 0.7em)
   set terms(indent: 1em, separator: " - ")
+  show figure.where(kind: "quarto-float-tbl"): set block(breakable: true)
+  show figure.where(kind: "quarto-float-tbl"): set table.header(repeat: true) 
 
 
   // add table of content
