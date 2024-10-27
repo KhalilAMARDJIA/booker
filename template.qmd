@@ -5,7 +5,7 @@ format:
   booker-typst: default
 ---
 
-## Introduction
+# Introduction
 
 ```{=typst}
 #for i in (10, 250, 30) {
@@ -16,3 +16,114 @@ format:
 ```
 
 
+ Simple quarto cheats
+## Unordered list
+
+- This is the first element of the list
+- This is the second element of the list
+  + This is the first nested element of the list
+  + This is the second nested element of the list
+- This is the third element of the list
+
+## Ordered list
+
+1. ordered list
+2. item 2
+    i) sub-item 1
+         A.  sub-sub-item 1
+         B.  sub-sub-item 2
+    ii) sub-item 2
+3. item 3
+
+## Task list & checklist
+
+- [ ] item 1
+- [x] item 2
+- [ ] item 3
+
+## Terms definitions
+Total Ankle Arthroplasty (TAA)
+: Total ankle arthroplasty is the procedure of removing the ankle from the body.
+
+
+# Code blocks using R
+
+
+## Tables {#sec-tables}
+
+
+```{R}
+#| label: tbl-mtcars
+#| tbl-cap: "mtcars R dataset"
+
+mtcars |> 
+  knitr::kable() 
+```
+
+
+```{R}
+#| label: tbl-arrests
+#| tbl-cap: "USArrests R dataset from the datasets package"
+
+USArrests  |> 
+  knitr::kable() 
+```
+
+## Raw outputs 
+
+```{R}
+glm <- glm(mpg ~ disp, data = mtcars)
+glm
+```
+
+{{< pagebreak >}}
+
+## Plots
+
+### Base R plots
+
+In this example, we plot the relationship between displacement and miles per gallon based on the mtcars dataset using the `plot()` function.
+
+```{R}
+#| label: plot-glm
+#| fig-cap: The figure describes the relationship between displacement and miles per gallon based on the mtcars dataset
+#| fig-height: 6
+glm <- lm(mpg ~ disp, data = mtcars)
+plot(mpg ~ disp, data = mtcars) # add general linear model dashed line
+abline(glm, col = "blue", lty = 2)
+```
+
+### ggplot2 plots 
+
+In this example, we plot the relationship between displacement and miles per gallon based on the mtcars dataset using the `ggpubr` package, a wrapper around the `ggplot2` package.
+
+```{R}
+#| label: plot-ggplot2
+#| fig-cap: ggpubr figure describes the relationship between displacement and miles per gallon based on the mtcars dataset
+#| fig-height: 6
+
+# install ggplot2 package if not already installed
+if (!require("ggpubr")) {
+  install.packages("ggpubr")
+  library(ggpubr)
+}
+
+ggscatter(mtcars, x = "disp", y = "mpg", shape = 1,
+          add = "reg.line", 
+          conf.int = TRUE, 
+          cor.coef = TRUE, 
+          cor.method = "pearson",
+          xlab = "Displacement", ylab = "Miles per gallon") +
+          theme_classic2() + 
+          theme(
+            panel.border = element_rect(colour = "black", fill = NA),
+          ) 
+
+
+```
+
+# Cross ref and refs
+
+## Cross references
+
+The code block presented in @sec-tables uses `R` to generate a table. The `mtcars` dataset is shown in @tbl-mtcars.
