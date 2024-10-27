@@ -53,6 +53,12 @@
   )
 }
 
+
+#show quote: it => {
+  blockquote(it)
+}
+
+
 #let grid_2(body1, body2)= {
   align(horizon, grid(columns: 2, gutter: 1em, [#body1], [#body2]))
 }
@@ -80,7 +86,8 @@
 
 
 
-#let main_fonts = ("Latin Modern Roman 12","IBM Plex Serif", "Merriweather")
+#let main_fonts = ("Latin Modern Roman","IBM Plex Serif", "Merriweather")
+#let secondary_fonts = ("IBM Plex Sans", "Source Sans Pro", "Noto Sans")
 #let math_fonts = ("MathJax_Math", "New Computer Modern Math")
 #let mono_fonts = ("Iosevka NF", "Monolisa", "STIX MathJax Monospace")
 
@@ -130,13 +137,13 @@
           size: 2em,
           fill: cover_page_text,
           weight: 500,
-          font: main_fonts,
+          font: secondary_fonts,
           align(upper(title), right),
         ), width: 90%, stroke: (right: cover_page_line), inset: 1em), box(text(
           size: 1.3em,
           fill: cover_page_text,
           weight: 400,
-          font: main_fonts,
+          font: secondary_fonts,
           align(subtitle, left),
         ), width: 90%, inset: 1em, stroke: (left: cover_page_line))),
         [],
@@ -144,12 +151,12 @@
           size: 1.3em,
           fill: cover_page_text,
           weight: 200,
-          font: main_fonts,
+          font: secondary_fonts,
         )[#author], [], text(
           size: 1.3em,
           fill: cover_page_text,
           weight: 400,
-          font: main_fonts,
+          font: secondary_fonts,
         )[#date], align: (left, center, right)),
         align: center + horizon,
       ),
@@ -163,21 +170,22 @@
   show math.equation: set text(font: math_fonts, size: 10pt)
 
 
-  show raw: set text(font: mono_fonts, size: 9pt)
-  show raw: body => {
-    align(left, rect(
-      inset: (top: 1em, bottom: 1em, left: -7em, right: -7em),
-      outset: (top: 1em, bottom: 1em, left: 15em, right: 15em),
-      fill: luma(95%),
-      stroke: (paint: main_color, thickness: 0.2em),
-      radius: 1em,
-      width: 100%,
-      [#underline[R code example:] #body],
-    ))
-  }
+  // show raw: set text(font: mono_fonts, size: 9pt)
+  // show raw: body => {
+  //   align(left, rect(
+  //     inset: (top: 1em, bottom: 1em, left: -7em, right: -7em),
+  //     outset: (top: 1em, bottom: 1em, left: 15em, right: 15em),
+  //     fill: luma(95%),
+  //     stroke: (paint: main_color, thickness: 0.2em),
+  //     radius: 1em,
+  //     width: 100%,
+  //     [#underline[R code example:] #body],
+  //   ))
+  // }
 
   // Configure footer
-  set page(margin: (top: 6em, bottom: 5em, left: 10em, right: 8em), footer: grid(
+  
+  set page(margin: (inside: 3.5cm, outside: 3.5cm, y: 3cm), footer: grid(
     columns: (1fr, 1fr, 1fr),
     align: (left, center, right),
     gutter: 0.5em,
@@ -185,6 +193,42 @@
     [],
     align(counter(page).display("1 of 1", both: true), right),
   ))
+//   context {
+//   let chapter = query(selector(heading).before(here())).slice(-1).at(0)
+
+//     // Config header
+//   set page(header: grid(
+//     columns: (1fr, 1fr, 1fr),
+//     align: (left, center, right),
+//     gutter: 0.5em,
+//     [],
+//     [],
+//     [chapter.body],
+
+
+//   ))
+// }
+
+
+
+
+
+  // Set bulette list settings
+  set list(
+    tight: false,
+    indent: 1.5em,
+    body-indent: 1em,
+    spacing: auto,
+    marker: ([•], [--], [○], [‣]))
+
+  // Set number list settings
+  set enum(
+    tight: false,
+    indent: 1.5em,
+    body-indent: 1em,
+    spacing: auto,
+  )
+
 
   // Crossref settings
   show ref : it =>[
@@ -213,6 +257,19 @@
     )
     #h(0.3em)
   ]
+  show cite : it =>[
+    #h(0.3em)
+    #set text(weight: "regular")
+    #box(
+      [#it],
+      stroke: main_color + 0.04em,
+      fill: main_color.lighten(90%),
+      outset: 0.2em,
+      radius: 0.2em,
+    )
+    #h(0.3em)
+  ]
+
 
   // Headings settings
   set heading(numbering: (..nums) => {
@@ -263,6 +320,8 @@
     block(it)
   }
 
+
+
   // Table settings
   show figure.where(kind: table): set figure.caption (position: top)
   show figure.where(kind: table): set block(breakable: true)
@@ -300,12 +359,12 @@
       it,
       fill: main_color.darken(50%),
       size: 1em,
-      font: mono_fonts,
+      font: secondary_fonts,
       weight: 700,
     )
   ]
 
-  show outline.entry: set text(font: mono_fonts, weight: 300)
+  show outline.entry: set text(font: main_fonts, weight: 300)
   outline(indent: auto, depth: 5)
 
   // document body
